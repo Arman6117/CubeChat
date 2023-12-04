@@ -18,6 +18,7 @@ function getGoogleCredentials() {
 
   return { clientId, clientSecret };
 }
+
 export const authOptions: NextAuthOptions = {
   adapter:
     UpstashRedisAdapter(
@@ -51,18 +52,18 @@ export const authOptions: NextAuthOptions = {
         id: dbUser.id,
       };
     },
-    async session({session,token}) {
-        if (token) {
-            session.user.id = token.id;
-            session.user.email = token.email;
-            session.user.image = token.picture
-            session.user.name = token.name;
-        }
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.image = token.picture;
+        session.user.name = token.name;
+      }
 
-        return session;
+      return session;
     },
-    redirect () {
-        return '/'
-    }
+    redirect() {
+      return "/completeProfile";
+    },
   },
 };

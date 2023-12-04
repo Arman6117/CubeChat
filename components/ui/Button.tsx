@@ -4,12 +4,12 @@ import { Loader2 } from "lucide-react";
 import { ButtonHTMLAttributes, FC } from "react";
 
 export const buttonVariants = cva(
-  "active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-color focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none",
+  "active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-color focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
       variant: {
-        default: "bg-blue-900 text-white hover:bg-blue-800",
-        ghost: "bg-transparent hover:text-blue-900 hover:bg-blue-200",
+        default: "bg-cyan-800 text-white hover:bg-cyan-500",
+        ghost: "bg-transparent hover:text-cyan-900 hover:bg-cyan-200",
       },
       size: {
         default: "h-10 py-2 px-4",
@@ -42,6 +42,7 @@ const Button: FC<ButtonProps> = ({
     <button
       disabled={isLoading}
       className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
     >
       {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
       {children}

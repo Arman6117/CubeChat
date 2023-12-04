@@ -1,14 +1,11 @@
-import LoginPageContent from "@/components/LoginPageContent";
-import React from "react";
+import CompleteProfilePageContent from "@/components/CompleteProfilePageContent";
 
 type Props = {};
 
 const page = (props: Props) => {
   return (
     <div className=" h-screen w-screen ">
-      
-        <LoginPageContent />
-    
+      <CompleteProfilePageContent />
     </div>
   );
 };
