@@ -25,11 +25,11 @@ const LoginPageContent = (props: Props) => {
     }
   };
   return (
-    <div className="flex p-7 justify-between space-x-3 h-screen w-screen bg-neutral-50 ">
+    <div className="flex p-7  justify-between space-x-3 h-screen w-screen bg-neutral-50 ">
       <div className=" py-10 flex flex-col justify-start h-full w-full sm:w-[50%] bg-neutral-50">
         <div className="bg-red-0 w-full h-12">
           <div className="flex space-x- py-4 px-8">
-            <h2 className=" bg-clip-text drop-shadow-md font-bold text-3xl bg-gradient-to-r from-blue-500 to-cyan-500 text-transparent">
+            <h2 className=" bg-clip-text drop-shadow-md font-bold text-3xl bg-gradient-to-r from-blue-500 to-indigo-500 text-transparent">
               CubeChat
             </h2>
             <div className="relative -top-6 drop-shadow-lg">
@@ -91,7 +91,7 @@ const LoginPageContent = (props: Props) => {
         </div>
       </div>
 
-      <div className=" sm:flex hidden items-center justify-center  rounded-xl h-full w-3/5 bg-gradient-to-r from-cyan-500 to-blue-500 ">
+      <div className=" sm:flex hidden items-center justify-center  rounded-xl h-full w-3/5 bg-gradient-to-r from-indigo-500 to-blue-500 ">
         <div className="flex flex-col w-[70%] h-2/3 bg-neutral-400 bg-clip-padding border border-gray-100 backdrop-filter backdrop-blur-md bg-opacity-20 items-center rounded-xl shadow-md">
           <div className="">
             <Image

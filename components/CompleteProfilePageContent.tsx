@@ -1,22 +1,32 @@
 "use client";
 import Image from "next/image";
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getSession, useSession } from "next-auth/react";
+
 import { CameraIcon, PlusIcon } from "lucide-react";
 
-// import { toast } from "react-hot-toast";
 import { createNewUser } from "@/actions/createNewUser";
 
 import Button from "./ui/Button";
 
-type Props = {};
-
-const CompleteProfilePageContent = (props: Props) => {
+const CompleteProfilePageContent = () => {
   const [userName, setUsername] = useState("");
-  const [profileIcon, setProfileIcon] = useState<File | null>(null);
+  const [profileIcon, setProfileIcon] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [userId, setUserId] = useState<string | undefined>("");
   const imageInput = useRef<HTMLInputElement | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const session = await getSession();
+      const id = session?.user.id;
+      setUserId(id);
+    };
+    fetchUser();
+  }, []);
 
   const handleProfilePictureInputClick = () => {
     if (imageInput.current) {
@@ -29,27 +39,34 @@ const CompleteProfilePageContent = (props: Props) => {
   ) => {
     if (e.target.files) {
       const imageFile = e.target.files[0];
-      setProfileIcon(imageFile);
       const url = URL.createObjectURL(imageFile);
+      const reader = new FileReader();
       setImageUrl(url);
+
+      reader.onloadend = () => {
+        setProfileIcon(reader.result as string);
+      };
+
+      reader.readAsDataURL(imageFile);
     }
   };
 
-  const handleFormSubmit =async (e: FormEvent) => {
+  const handleFormSubmit = async (e: FormEvent) => {
     setIsLoading(true);
     e.preventDefault();
     try {
+      const data = { userName, profileIcon, userId };
 
-      const data = {userName,profileIcon};
-  
-      await createNewUser(data);
+      const result = await createNewUser(data);   
+
+      if (result === "Success") {
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
-      
-    }finally {
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
- 
   };
 
   return (
@@ -57,7 +74,7 @@ const CompleteProfilePageContent = (props: Props) => {
       <div className=" py-7 flex flex-col justify-start h-full w-full sm:w-[50%] bg-neutral-50">
         <div className="bg-red-0 w-full h-12">
           <div className="flex space-x- py-4 px-8">
-            <h2 className=" bg-clip-text drop-shadow-md font-bold text-3xl bg-gradient-to-r from-blue-500 to-cyan-500 text-transparent">
+            <h2 className=" bg-clip-text drop-shadow-md font-bold text-3xl bg-gradient-to-r from-blue-500 to-indigo-500 text-transparent">
               CubeChat
             </h2>
             <div className="relative -top-6 drop-shadow-lg">
@@ -84,7 +101,7 @@ const CompleteProfilePageContent = (props: Props) => {
                     Username
                   </label>
                   <input
-                    className="border-2 border-cyan-500 p-2 bg-neutral-50 outline-none rounded-md"
+                    className="border-2 border-indigo-500 p-2 bg-neutral-50 outline-none rounded-md"
                     required
                     value={userName}
                     name="username"
@@ -93,13 +110,13 @@ const CompleteProfilePageContent = (props: Props) => {
                 </div>
                 <div className="flex flex-col py-3 space-y-3 ">
                   <div
-                    className="relative bg-white border-cyan-700 mt-8 border-4 border-dashed w-32 h-32 rounded-full"
+                    className="relative bg-white border-indigo-700 mt-8 border-4 border-dashed w-32 h-32 rounded-full"
                     onClick={handleProfilePictureInputClick}
                   >
                     {imageUrl ? null : (
                       <PlusIcon
                         size={40}
-                        className="absolute  p-1 right-0 cursor-pointer bg-cyan-500 text-cyan-900 rounded-full "
+                        className="absolute  p-1 right-0 cursor-pointer bg-indigo-500 text-indigo-900 rounded-full "
                       />
                     )}
 
@@ -107,12 +124,10 @@ const CompleteProfilePageContent = (props: Props) => {
                       {imageUrl ? (
                         <Image
                           src={imageUrl}
-                          
                           fill
                           className="rounded-full object-cover"
                           // height={100}
                           alt="profile"
-
                         />
                       ) : (
                         <>
@@ -125,7 +140,7 @@ const CompleteProfilePageContent = (props: Props) => {
                           />
                           <CameraIcon
                             size={40}
-                            className=" text-cyan-700 relative top-10 left-0"
+                            className=" text-indigo-700 relative top-10 left-0"
                           />
                         </>
                       )}
@@ -147,7 +162,7 @@ const CompleteProfilePageContent = (props: Props) => {
         </div>
       </div>
 
-      <div className=" sm:flex hidden items-center justify-center  rounded-xl h-full w-3/5 bg-gradient-to-r from-cyan-500 to-blue-500 ">
+      <div className=" sm:flex hidden items-center justify-center  rounded-xl h-full w-3/5 bg-gradient-to-r from-indigo-500 to-blue-500 ">
         <div className="flex flex-col w-[70%] h-2/3 bg-neutral-400 bg-clip-padding border border-gray-100 backdrop-filter backdrop-blur-md bg-opacity-20 items-center rounded-xl shadow-md">
           <div className="">
             <Image

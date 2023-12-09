@@ -3,23 +3,28 @@ import { db } from "@/lib/db";
 
 import { NextRequest } from "next/server";
 
-
 export const POST = async (request: NextRequest) => {
-  const { userName, profileIcon } = await request.json();
+  const { userName, profileIcon, userId } = await request.json();
 
   try {
-    const existingUser = await db.get(`user:${userName}`);
-  
-    // console.log(existingUser);
-    
+    //!Check if username is already in use
+    const existingUser = await db.get(`userName:${userName}`);
+   
     if (existingUser) {
       return new Response(JSON.stringify("Username already in use"), {
         status: 400,
       });
-      
     }
 
-    await db.set(`user:${userName}`, JSON.stringify({userName, profileIcon}));
+    await db.set(
+      `userName:${userName}`,userId
+    );
+    
+    await db.set(
+      `userData:${userId}`,
+      JSON.stringify({ userName, profileIcon, userId })
+    );
+
     return new Response(JSON.stringify("User created successfully"), {
       status: 200,
     });
