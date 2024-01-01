@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 
 import Button from "./ui/Button";
 import { toast } from "react-hot-toast";
@@ -11,12 +11,21 @@ type Props = {};
 
 const LoginPageContent = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [callbackUrl,setCallbackUrl] = useState<string>('/');
 
+ 
+
+  
   const loginWithGoogle = async () => {
+
+    const session = getSession();
+    if (!session) {
+      setCallbackUrl('/completeProfile')
+    }
     setIsLoading(true);
     try {
       // throw new Error("Test");
-      await signIn("google");
+      await signIn("google", {callbackUrl:callbackUrl});
       
     } catch (error) {
       toast.error("Something went wrong with your login");

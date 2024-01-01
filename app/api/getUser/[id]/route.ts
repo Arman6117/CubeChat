@@ -11,7 +11,7 @@ export const GET = async (
     // console.log(userId);
     
     const userData = await db.get(`userData:${userId}`);
-    //  console.log(userData);
+
      
     if (!userData) {
       return toast.error("User not found");

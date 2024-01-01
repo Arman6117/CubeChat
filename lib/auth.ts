@@ -60,10 +60,12 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
       }
 
+     
+      
       return session;
     },
     redirect() {
-      return "/completeProfile";
+      return '/completeProfile'
     },
   },
 };

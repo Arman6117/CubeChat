@@ -27,7 +27,7 @@ const AddFriendPageContent = () => {
 
   const onSubmit = async (data: FormData) => {
     const success = await addFriendByEmail(data.email, setError);
-
+ 
     if (success) {
       setSuccess(true);
     }
@@ -39,7 +39,7 @@ const AddFriendPageContent = () => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col md:w-[50%] w-full space-y-9 text-start "
+        className="flex flex-col md:w-[60%] w-full space-y-9 text-start "
       >
         <div className="flex flex-col sm:flex-row sm:space-x-9 space-y-8 sm:space-y-0">
           <label
@@ -62,7 +62,7 @@ const AddFriendPageContent = () => {
         </div>
         <p className="text-sm mt-1 text-red-600">{errors.email?.message}</p>
         {success ? (
-          <p className="text-sm mt-1 text-red-600">{errors.email?.message}</p>
+          <p className="text-sm mt-1 text-green-600">Friend request sent!!</p>
         ) : null}
       </form>
       {/* <form className="flex flex-col md:w-[50%] w-full space-y-9 text-start ">

@@ -13,18 +13,29 @@ export const addFriendByEmail = async (
   try {
     const validatedEmail = addFriendValidator.parse({ email });
 
-    await axios.post("/api/friends/add", {
+   await axios.post("/api/friends/add", {
       email: validatedEmail,
+    },{
+      withCredentials: true,
     });
+
+     
+     
     return true;
+    
   } catch (error) {
+
     if (error instanceof z.ZodError) {
       setError("email", { message: error.message });
+      console.log("error");
+      
       return false;
     }
 
     if (error instanceof AxiosError) {
       setError("email", { message: error.response?.data });
+      console.log("error");
+
       return false;
     }
 
