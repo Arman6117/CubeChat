@@ -1,15 +1,17 @@
-'use client'
+
 import React from "react";
 import Sidebar from "./Sidebar";
 import ChatLayout from "./ChatLayout";
 import { usePathname } from "next/navigation";
+import { headers } from "next/headers";
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const pathname = usePathname();
+  const headerLists = headers();
+  const pathname = headerLists.get('x-invoke-path')
   return pathname !== "/login" && pathname !== "/completeProfile" ? (
     <div className="flex h-screen ">
       <Sidebar />

@@ -1,5 +1,5 @@
 "use client";
-import  'dotenv/config'
+import "dotenv/config";
 import { fetchRedis } from "@/helpers/redis";
 
 import { Users } from "lucide-react";
@@ -15,8 +15,6 @@ const FriendRequestSidebarItem = (props: Props) => {
   const [unseenRequestCount, setUnseenRequestCount] = useState<number>(0);
   const [session, setSession] = useState<Session | null>(null);
 
-  const upstashRedisURL = process.env.UPSTASH_REDIS_REST_URL;
-
   useEffect(() => {
     const fetchSession = async () => {
       const session = await getSession();
@@ -28,15 +26,11 @@ const FriendRequestSidebarItem = (props: Props) => {
   useEffect(() => {
     const fetchUnseenRequests = async () => {
       try {
-        console.log("Session:", session);
         if (session?.user?.id) {
-       
           const newRequests = (await fetchRedis(
             "smembers",
             `user:${session.user.id}:incoming_friend_request`
           )) as User[];
-
-          console.log(newRequests);
 
           setUnseenRequestCount(newRequests.length);
         } else {
@@ -57,8 +51,13 @@ const FriendRequestSidebarItem = (props: Props) => {
         `h-auto w-full px-2 cursor-pointer py-2 transition-color flex rounded-md justify-center  text-neutral-800`
       )}
     >
-      <Users size={25} className="" />
-      {unseenRequestCount > 0 ? "Done" : "Not done"}
+      <div className="relative">
+        <div className="absolute flex text-center justify-center items-center  w-4 h-4 rounded-full  bg-indigo-500 left-3 bottom-4">
+          <span className="relative text-white font-semibold text-sm  ">{unseenRequestCount}</span>
+        </div>
+        <Users size={25} className="" />
+        
+      </div>
     </Link>
   );
 };

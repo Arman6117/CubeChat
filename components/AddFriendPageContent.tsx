@@ -15,6 +15,7 @@ type FormData = z.infer<typeof addFriendValidator>;
 
 const AddFriendPageContent = () => {
   const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     setError,
@@ -26,11 +27,13 @@ const AddFriendPageContent = () => {
   });
 
   const onSubmit = async (data: FormData) => {
+    setIsLoading(true)
     const success = await addFriendByEmail(data.email, setError);
  
     if (success) {
       setSuccess(true);
     }
+    setIsLoading(false);
   };
   return (
     <div className="flex flex-col  space-y-12 w-[100%] h-[30rem] p-0 sm:p-4 md:p-10  items-center">
@@ -55,7 +58,7 @@ const AddFriendPageContent = () => {
               type="text"
               placeholder="your@example.com"
             />
-            <Button size={"sm"}>
+            <Button size={"sm"} isLoading={isLoading}>
               <ArrowRight />
             </Button>
           </div>

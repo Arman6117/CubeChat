@@ -4,3 +4,10 @@ interface User {
     image: string,
     id: string,
 }
+
+interface UserData {
+    userName: string,
+    userId: string,
+    profileIcon: string,
+
+}

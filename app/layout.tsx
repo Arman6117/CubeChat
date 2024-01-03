@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "CubeChat",
   description: "Simple chat app for you",
   icons: {
-    icon: "/icon.png",
+    icon: "/Logo.png",
   },
 };
 

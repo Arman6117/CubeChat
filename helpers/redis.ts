@@ -18,7 +18,7 @@ export async function fetchRedis(
     cache: "no-store",
   });
 
-  console.log(response);
+  
 
   if (!response.ok) {
     console.log(response);
@@ -27,7 +27,7 @@ export async function fetchRedis(
   }
 
   const data = await response.json();
-  console.log(data);
+
 
   return data.result;
 }
